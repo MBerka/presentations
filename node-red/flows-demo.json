@@ -1,0 +1,169 @@
+[
+    {
+        "id": "c15dab69.ddbd98",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "dbeca547.c26c18",
+        "type": "http in",
+        "z": "c15dab69.ddbd98",
+        "name": "",
+        "url": "/hello",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 107.66665649414062,
+        "y": 92.1428451538086,
+        "wires": [
+            [
+                "b40b3ef8.fccb18"
+            ]
+        ]
+    },
+    {
+        "id": "d40e3e0d.85cb48",
+        "type": "http response",
+        "z": "c15dab69.ddbd98",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 646.5952758789062,
+        "y": 118.2142562866211,
+        "wires": []
+    },
+    {
+        "id": "cc2c9a1a.02d1",
+        "type": "mqtt in",
+        "z": "c15dab69.ddbd98",
+        "name": "",
+        "topic": "test/#",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "7381e741.a2eb98",
+        "x": 115.28573608398438,
+        "y": 163.57137298583984,
+        "wires": [
+            [
+                "3436bb8.42dbac4"
+            ]
+        ]
+    },
+    {
+        "id": "3436bb8.42dbac4",
+        "type": "function",
+        "z": "c15dab69.ddbd98",
+        "name": "Save",
+        "func": "flow.set('mqtt', `${msg.payload} from ${msg.topic}`);\nconsole.log(`${msg.payload} from ${msg.topic}`);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 248.85714721679688,
+        "y": 163.99993896484375,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b40b3ef8.fccb18",
+        "type": "function",
+        "z": "c15dab69.ddbd98",
+        "name": "Hello",
+        "func": "console.log(msg.payload);\nmsg.payload = '<h1>Hello Node!</h1>' + flow.get('mqtt');\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 284.9287109375,
+        "y": 91.5714111328125,
+        "wires": [
+            [
+                "d40e3e0d.85cb48"
+            ]
+        ]
+    },
+    {
+        "id": "151aa65e.bec392",
+        "type": "mqtt out",
+        "z": "c15dab69.ddbd98",
+        "name": "",
+        "topic": "test/node",
+        "qos": "",
+        "retain": "",
+        "broker": "7381e741.a2eb98",
+        "x": 490.3095703125,
+        "y": 258.57135009765625,
+        "wires": []
+    },
+    {
+        "id": "87d6ae53.83c038",
+        "type": "http in",
+        "z": "c15dab69.ddbd98",
+        "name": "",
+        "url": "/send",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 121.95242309570312,
+        "y": 253.69048309326172,
+        "wires": [
+            [
+                "5293863f.3d0828",
+                "22075ea7.888582"
+            ]
+        ]
+    },
+    {
+        "id": "5293863f.3d0828",
+        "type": "function",
+        "z": "c15dab69.ddbd98",
+        "name": "Contents to send",
+        "func": "msg.payload = 'hello from pdxnode';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 304.8095397949219,
+        "y": 260.83333587646484,
+        "wires": [
+            [
+                "151aa65e.bec392"
+            ]
+        ]
+    },
+    {
+        "id": "22075ea7.888582",
+        "type": "function",
+        "z": "c15dab69.ddbd98",
+        "name": "Response to user",
+        "func": "console.log(msg.payload);\nmsg.payload = '<h1>Message sent!</h1>';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 319.33331298828125,
+        "y": 219.99996185302734,
+        "wires": [
+            [
+                "d40e3e0d.85cb48"
+            ]
+        ]
+    },
+    {
+        "id": "7381e741.a2eb98",
+        "type": "mqtt-broker",
+        "z": "",
+        "name": "",
+        "broker": "test.mosquitto.org",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    }
+]
